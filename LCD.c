@@ -46,8 +46,15 @@ void LCD_Init(void)
 
     //Define LCD Pins as Outputs and
     //set all pins low (might be random values on start up, fixes lots of issues)
-
-
+    TRISEbits.TRISE1 = 0;	
+    TRISEbits.TRISE3 = 0;
+    TRISBbits.TRISB2 = 0;
+    TRISBbits.TRISB3 = 0;
+	//set initial output LAT values (they may have random values when powered on)
+    LATEbits.LATE1 = 0;	
+    LATEbits.LATE3 = 0;
+    LATBbits.LATB2 = 0;
+    LATBbits.LATB3 = 0;
     //Initialisation sequence code
 	// follow the sequence in the GitHub Readme picture for 4-bit interface.
 	// first Function set should be sent with LCD_sendnibble (the LCD is in 8 bit mode at start up)
