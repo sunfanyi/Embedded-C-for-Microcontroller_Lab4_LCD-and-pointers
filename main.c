@@ -27,7 +27,8 @@ void main(void) {
 	LCD_sendbyte(0x6C,1); //L 
 	LCD_sendbyte(0x64,1); //D
 	LCD_sendbyte(0x21,1); //!
-
+    
+    
     while (1) {
 
     }

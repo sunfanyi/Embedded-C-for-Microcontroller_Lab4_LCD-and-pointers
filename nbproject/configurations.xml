@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>D:/Desktop/ME3/Embedded C for Microcontroller/Tutorials/Lab4_LCD_and_pointers/lab-4-fanyi-ernie.X/LCD.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -13,7 +14,6 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>LCD.c</itemPath>
-      <itemPath>LCD.h</itemPath>
       <itemPath>main.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -148,6 +148,11 @@
         <property key="program-the-device-with-default-config-words" value="true"/>
         <property key="remove-unused-sections" value="true"/>
       </HI-TECH-LINK>
+      <Tool>
+        <property key="memories.programmemory.ranges" value="0-1ffff"/>
+        <property key="programmerToGoFilePath"
+                  value="D:/Desktop/ME3/Embedded C for Microcontroller/Tutorials/Lab4_LCD_and_pointers/lab-4-fanyi-ernie.X/debug/default/lab-4-fanyi-ernie_ptg"/>
+      </Tool>
       <XC8-CO>
         <property key="coverage-enable" value=""/>
         <property key="stack-guidance" value="false"/>
@@ -167,6 +172,11 @@
         <property key="user-pack-device-support" value=""/>
         <property key="wpo-lto" value="false"/>
       </XC8-config-global>
+      <pk4hybrid>
+        <property key="memories.programmemory.ranges" value="0-1ffff"/>
+        <property key="programmerToGoFilePath"
+                  value="D:/Desktop/ME3/Embedded C for Microcontroller/Tutorials/Lab4_LCD_and_pointers/lab-4-fanyi-ernie.X/debug/default/lab-4-fanyi-ernie_ptg"/>
+      </pk4hybrid>
     </conf>
   </confs>
 </configurationDescriptor>
