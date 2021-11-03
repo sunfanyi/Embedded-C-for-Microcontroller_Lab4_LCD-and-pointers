@@ -112,6 +112,7 @@ void LCD_setline (char line)
 void LCD_sendstring(char *string)
 {
 	//code here to send a string to LCD using pointers and LCD_sendbyte function
+    while (*string) {LCD_sendbyte(*string++,1);}
 }
 
 /************************************
