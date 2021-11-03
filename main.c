@@ -28,7 +28,8 @@ void main(void) {
 //	LCD_sendbyte(0x64,1); //D
 //	LCD_sendbyte(0x21,1); //!
     LCD_sendstring("Hello World!");
-    
+    LCD_setline(2);
+    LCD_sendstring("Hello Again!");
     while (1) {
 
     }
