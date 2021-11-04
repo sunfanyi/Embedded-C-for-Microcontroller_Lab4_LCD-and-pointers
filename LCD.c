@@ -87,9 +87,9 @@ void LCD_Init(void)
     LCD_sendbyte(0b00000001,0);  
     __delay_ms(2);
     // entry mode set
-    LCD_sendbyte(0b00000110,0);  // 0x06 Auto Increment cursor
+    LCD_sendbyte(0b00000110,0);  // 0x06 Auto Increment cursor, shift display off
 	//remember to turn the LCD display back on at the end of the initialisation (not in the data sheet)
-    LCD_sendbyte(0b00001111,0);  // display on, cursor on, blinking on
+    LCD_sendbyte(0b00001110,0);  // display on, cursor on, blinking off
 }
 
 /************************************
@@ -121,6 +121,8 @@ void LCD_sendstring(char *string)
 void LCD_scroll(void)
 {
 	//code here to scroll the text on the LCD screen
+    __delay_ms(300);
+    LCD_sendbyte(0b00011000,0); // shift display, shift left
 }
 
 /************************************
