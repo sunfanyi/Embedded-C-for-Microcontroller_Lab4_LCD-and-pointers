@@ -132,8 +132,9 @@ void LCD_scroll(void)
  * Note result is stored in a buffer using pointers, it is not sent to the LCD
 ************************************/
 void ADC2String(char *buf, unsigned int ADC_val){
-    //code to calculate the inegeter and fractions part of a ADC value
-    //unsigned int int_part = ADC_val; 
+    //code to calculate the inegeter and fractions part of a ADC value   
+    unsigned int int_part = ADC_val/77;
+    unsigned int frac_part = ADC_val*100/77 - int_part*100;
 	// and format as a string using sprintf (see GitHub readme)
-    sprintf(buf,"V = %03d", ADC_val); //put string in buffer array address, in 3 figures with leading 0's
+    sprintf(buf,"%d.%02dV", int_part, frac_part); //put string in buffer array address, in 3 figures with leading 0's
 }
