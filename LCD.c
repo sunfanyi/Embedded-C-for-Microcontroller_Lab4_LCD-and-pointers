@@ -1,4 +1,5 @@
 #include <xc.h>
+#include <stdio.h>
 #include "LCD.h"
 
 /************************************
@@ -89,7 +90,7 @@ void LCD_Init(void)
     // entry mode set
     LCD_sendbyte(0b00000110,0);  // 0x06 Auto Increment cursor, shift display off
 	//remember to turn the LCD display back on at the end of the initialisation (not in the data sheet)
-    LCD_sendbyte(0b00001110,0);  // display on, cursor on, blinking off
+    LCD_sendbyte(0b00001100,0);  // display on, cursor off, blinking off
 }
 
 /************************************
@@ -131,6 +132,8 @@ void LCD_scroll(void)
  * Note result is stored in a buffer using pointers, it is not sent to the LCD
 ************************************/
 void ADC2String(char *buf, unsigned int ADC_val){
-	//code to calculate the inegeter and fractions part of a ADC value
+    //code to calculate the inegeter and fractions part of a ADC value
+    //unsigned int int_part = ADC_val; 
 	// and format as a string using sprintf (see GitHub readme)
+    sprintf(buf,"V = %03d", ADC_val); //put string in buffer array address, in 3 figures with leading 0's
 }
