@@ -133,8 +133,8 @@ void LCD_scroll(void)
 ************************************/
 void ADC2String(char *buf, unsigned int ADC_val){
     //code to calculate the inegeter and fractions part of a ADC value   
-    unsigned int int_part = ADC_val/77;
-    unsigned int frac_part = ADC_val*100/77 - int_part*100;
+    unsigned int int_part = ADC_val/77; //255/77=3.3, get integer part of voltage
+    unsigned int frac_part = ADC_val*100/77 - int_part*100; //get fractional part of voltage
 	// and format as a string using sprintf (see GitHub readme)
     sprintf(buf,"%d.%02dV", int_part, frac_part); //put string in buffer array address, in 3 figures with leading 0's
 }
