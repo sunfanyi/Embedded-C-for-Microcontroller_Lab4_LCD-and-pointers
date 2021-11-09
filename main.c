@@ -15,16 +15,25 @@
 void main(void) {
     LCD_Init(); //Initialise LCD
     ADC_init(); //Initialise analogue input
-	unsigned int ADC_val = 0;
+	unsigned int ADC_val;
     char buf[0]; //create buffer address using an array
-    
+    unsigned char obstacle[] = {
+        0b00011111,
+        0b00011111,
+        0b00011111,
+        0b00011111,
+        0b00011111,
+        0b00011111,
+        0b00011111,
+        0b00000000,
+    };
 	
+    LCD_disp_customised(obstacle,0,1);
+    
     while(1){
-        ADC_val = ADC_getval(); //Read ADC voltage from LDR and place in variable
-        ADC2String(buf, ADC_val); //give buffer address and ACD reading to function for processing
-        LCD_setline(1); //Set Line 1
-        LCD_sendstring(buf); //Send string from buffer address
-        __delay_ms(300); //delay 300ms for display
+//        ADC_val = ADC_getval(); //Read ADC voltage from LDR and place in variable
+//        ADC2String(buf, ADC_val); //give buffer address and ACD reading to function for processing
+//        __delay_ms(300); //delay 300ms for display
     }
 }
 

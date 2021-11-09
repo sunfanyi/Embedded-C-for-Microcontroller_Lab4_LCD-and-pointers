@@ -90,7 +90,7 @@ void LCD_Init(void)
     // entry mode set
     LCD_sendbyte(0b00000110,0);  // 0x06 Auto Increment cursor, shift display off
 	//remember to turn the LCD display back on at the end of the initialisation (not in the data sheet)
-    LCD_sendbyte(0b00001100,0);  // display on, cursor off, blinking off
+    LCD_sendbyte(0b00001110,0);  // display on, cursor off, blinking off
 }
 
 /************************************
@@ -132,9 +132,28 @@ void LCD_scroll(void)
  * Note result is stored in a buffer using pointers, it is not sent to the LCD
 ************************************/
 void ADC2String(char *buf, unsigned int ADC_val){
-    //code to calculate the inegeter and fractions part of a ADC value   
+    //code to calculate the integer and fractions part of a ADC value
     unsigned int int_part = ADC_val/77; //255/77=3.3, get integer part of voltage
     unsigned int frac_part = ADC_val*100/77 - int_part*100; //get fractional part of voltage
+    
+    // the following method eliminates error but potentially cause value overflow issue
+//    unsigned long int_part = ADC_val * 33 / 255 / 10;
+//    unsigned long frac_part = (ADC_val * 100 * 33 / 255 / 10) - int_part * 100;
 	// and format as a string using sprintf (see GitHub readme)
     sprintf(buf,"%d.%02dV", int_part, frac_part); //put string in buffer array address, in 3 figures with leading 0's
+}
+
+
+/************************************
+ * Function to display customised character
+************************************/
+void LCD_disp_customised(unsigned char *character, unsigned char CGRAM_pos,
+        unsigned char line) {
+    LCD_sendbyte(0b01000000 + CGRAM_pos * 8,0);  // Set CGRAM address in address counter.
+    int i;
+    for (i=0;i<8;i++) {  // sending character pattern to CGRAM
+        LCD_sendbyte(character[i],1);
+    }
+    LCD_setline(line);
+    LCD_sendbyte(CGRAM_pos,1);  // display data in CGRAM to LCD
 }
