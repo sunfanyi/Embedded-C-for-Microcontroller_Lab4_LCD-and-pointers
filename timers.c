@@ -12,13 +12,12 @@ void Timer0_init(void)
     T0CON1bits.T0ASYNC=1; // asynchronized
     T0CON0bits.T016BIT=1;	//16bit mode
     
-    // overflow every second
-    T0CON1bits.T0CKPS=0b0110; // 1:64 (1s * 4MHz / 65535 = 61)
+    // overflow every 300 ms
+    T0CON1bits.T0CKPS=0b0101; // 1:32
 	
-    // 64 * (250*250 - 1) /4000000 = 0.999984s
-    // accuracy over one year: (1 - 0.999984) * 365 * 24 * 3600 = 504.576 sec
+    // 32 * (250*150 - 1) /4000000 = 0.299992s
     TMR0H=6;
-    TMR0L=6;
+    TMR0L=106;
     T0CON0bits.T0EN=1;	//start the timer
 }
 
@@ -43,6 +42,6 @@ void Timer0_restart()
     // interrupt source wakes up the Sleep mode.
     T0CON0bits.T0EN=0;
     TMR0H=6;
-    TMR0L=6;
+    TMR0L=106;
     T0CON0bits.T0EN=1;
 }

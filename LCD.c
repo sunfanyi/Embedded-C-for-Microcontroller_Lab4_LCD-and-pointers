@@ -90,7 +90,7 @@ void LCD_Init(void)
     // entry mode set
     LCD_sendbyte(0b00000110,0);  // 0x06 Auto Increment cursor, shift display off
 	//remember to turn the LCD display back on at the end of the initialisation (not in the data sheet)
-    LCD_sendbyte(0b00001110,0);  // display on, cursor off, blinking off
+    LCD_sendbyte(0b00001100,0);  // display on, cursor off, blinking off
 }
 
 /************************************
@@ -145,15 +145,67 @@ void ADC2String(char *buf, unsigned int ADC_val){
 
 
 /************************************
- * Function to display customised character
+ * Function to create customised character
 ************************************/
-void LCD_disp_customised(unsigned char *character, unsigned char CGRAM_loc,
-        unsigned char line) {
+void LCD_create_character(unsigned char *character, unsigned char CGRAM_loc) {
     LCD_sendbyte(0b01000000 + CGRAM_loc * 8,0);  // Set CGRAM address in address counter.
     int i;
     for (i=0;i<8;i++) {  // sending character pattern to CGRAM
         LCD_sendbyte(character[i],1);
     }
-    LCD_setline(line);
-    LCD_sendbyte(CGRAM_loc,1);  // display data in CGRAM to LCD
+}
+
+
+void LCD_update_screen(unsigned char player_pos, unsigned char block_pos) {
+    LCD_sendbyte(player_pos,0);  // set cursor position
+    LCD_sendbyte(0,1);  // display 'person' character data in CGRAM to LCD 
+    LCD_sendbyte(block_pos,0);  // set cursor position
+    LCD_sendbyte(1,1);  // display 'block' character data in CGRAM to LCD
+}
+
+
+/************************************
+ * Function to update the player's position
+************************************/
+unsigned char LCD_jump(unsigned char *player, unsigned char *block,
+        unsigned char player_pos, unsigned char block_pos) {
+    if (player_pos == 0xC0 + 1) {  // player not jumping
+        LCD_sendbyte(1,0);  // clear display
+        __delay_ms(2);
+        player_pos = 0x80 + 1;
+        LCD_update_screen(player_pos, block_pos);  // back to first row
+    } else {  // player jumping
+        LCD_sendbyte(1,0);
+        __delay_ms(2);
+        player_pos = 0xC0 + 1;
+        LCD_update_screen(player_pos, block_pos);  // jump to second row
+    }
+    return player_pos;
+}
+
+
+/************************************
+ * Function to display "game over"
+************************************/
+void LCD_game_over(void) {
+    LCD_sendbyte(1,0);  // clear display
+    __delay_ms(2);
+    LCD_sendstring("Game Over!!!");
+    LCD_sendbyte(0xC0,0);
+    LCD_sendstring("Restart at: 3");
+    __delay_ms(2000);
+    
+    LCD_sendbyte(1,0);  // clear display
+    __delay_ms(2);
+    LCD_sendstring("Game Over!!!");
+    LCD_sendbyte(0xC0,0);
+    LCD_sendstring("Restart at: 2");  // count down
+    __delay_ms(2000);
+    
+    LCD_sendbyte(1,0);  // clear display
+    __delay_ms(2);
+    LCD_sendstring("Game Over!!!");
+    LCD_sendbyte(0xC0,0);
+    LCD_sendstring("Restart at: 1");
+    __delay_ms(2000);
 }

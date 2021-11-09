@@ -23,7 +23,9 @@ void LCD_sendstring(char *string);
 void LCD_scroll(void);
 void LCD_clear(void);
 void ADC2String(char *buf, unsigned int number);
-void LCD_disp_customised(unsigned char *character, unsigned char CGRAM_pos, 
-        unsigned char line);
-
+void LCD_create_character(unsigned char *character, unsigned char CGRAM_loc);
+void LCD_update_screen(unsigned char player_pos, unsigned char block_pos);
+unsigned char LCD_jump(unsigned char *player, unsigned char *block,
+        unsigned char player_pos, unsigned char block_pos);
+void LCD_game_over(void);
 #endif
