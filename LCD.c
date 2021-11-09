@@ -161,13 +161,15 @@ void LCD_create_character(unsigned char *character, unsigned char CGRAM_loc)
 void LCD_update_screen(unsigned char player_pos, unsigned char block_pos,
         unsigned char score)
 {
+    LCD_sendbyte(1,0);  // clear display
+    __delay_ms(2);
     int buf[0];
     LCD_sendbyte(player_pos,0);  // set cursor position
     LCD_sendbyte(0,1);  // display 'person' character data in CGRAM to LCD 
     LCD_sendbyte(block_pos,0);  // set cursor position
     LCD_sendbyte(1,1);  // display 'block' character data in CGRAM to LCD
-    LCD_sendbyte(0x80 + 13,0);  // set cursor position
-    sprintf(buf, "%03d", score);
+    LCD_sendbyte(0x80 + 12,0);  // set cursor position
+    sprintf(buf, "%02d", score);
     LCD_sendstring(buf);  // display score data in CGRAM to LCD
 }
 
@@ -179,13 +181,9 @@ unsigned char LCD_jump(unsigned char *player, unsigned char *block,
         unsigned char player_pos, unsigned char block_pos, unsigned char score) 
 {
     if (player_pos == 0xC0 + 1) {  // player not jumping
-        LCD_sendbyte(1,0);  // clear display
-        __delay_ms(2);
         player_pos = 0x80 + 1;
         LCD_update_screen(player_pos, block_pos, score);  // back to first row
     } else {  // player jumping
-        LCD_sendbyte(1,0);
-        __delay_ms(2);
         player_pos = 0xC0 + 1;
         LCD_update_screen(player_pos, block_pos, score);  // jump to second row
     }
@@ -196,7 +194,7 @@ unsigned char LCD_jump(unsigned char *player, unsigned char *block,
 /************************************
  * Function to display "game over"
 ************************************/
-void LCD_game_over(void) 
+unsigned char LCD_game_over(void) 
 {
     LCD_sendbyte(1,0);  // clear display
     __delay_ms(2);
@@ -218,4 +216,35 @@ void LCD_game_over(void)
     LCD_sendbyte(0xC0,0);
     LCD_sendstring("Restart at: 1");
     __delay_ms(1000);
+    return 0;  // reset score
+}
+
+
+/************************************
+ * Function to display "victory"
+************************************/
+unsigned char LCD_victory(void) 
+{
+    LCD_sendbyte(1,0);  // clear display
+    __delay_ms(2);
+    LCD_sendstring("Victory!!!");
+    LCD_sendbyte(0xC0,0);
+    LCD_sendstring("Restart at: 3");
+    __delay_ms(1000);
+    
+    LCD_sendbyte(1,0);  // clear display
+    __delay_ms(2);
+    LCD_sendstring("Victory!!!");
+    LCD_sendbyte(0xC0,0);
+    LCD_sendstring("Restart at: 2");  // count down
+    __delay_ms(1000);
+    
+    LCD_sendbyte(1,0);  // clear display
+    __delay_ms(2);
+    LCD_sendstring("Victory!!!");
+    LCD_sendbyte(0xC0,0);
+    LCD_sendstring("Restart at: 1");
+    __delay_ms(1000);
+    
+    return 0;  // reset score
 }

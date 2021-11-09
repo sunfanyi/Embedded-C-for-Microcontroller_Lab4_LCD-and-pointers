@@ -29,5 +29,6 @@ void LCD_update_screen(unsigned char player_pos, unsigned char block_pos,
 unsigned char LCD_jump(unsigned char *player, unsigned char *block,
         unsigned char player_pos, unsigned char block_pos, 
         unsigned char score);
-void LCD_game_over(void);
+unsigned char LCD_game_over(void);
+unsigned char LCD_victory(void);
 #endif

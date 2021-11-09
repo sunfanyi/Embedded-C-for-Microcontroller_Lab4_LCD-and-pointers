@@ -8,7 +8,6 @@
 #include <xc.h>
 #include <stdio.h>
 #include "LCD.h"
-//#include "ADC.h"
 #include "comparator.h"
 #include "interrupts.h"
 #include "timers.h"
@@ -16,15 +15,14 @@
 #define _XTAL_FREQ 64000000 //note intrinsic _delay function is 62.5ns at 64,000,000Hz  
 
 void main(void) {
-    LCD_Init(); //Initialise LCD
-//    ADC_init();
+    LCD_Init();
     Comp1_init();
     Interrupts_init();
     Timer0_init();
     
     unsigned char score = 0;
     unsigned char player_pos = 0xC0 + 1;  // position at the second row
-    unsigned char block_pos = 0XC0 + 15;  // position at the end of the second row
+    unsigned char block_pos = 0xC0 + 15;  // position at the end of the second row
     unsigned char player[] = {  // person character
         0b00000,
         0b10101,
@@ -57,16 +55,20 @@ void main(void) {
             if (--block_pos < 0xC0) {  // when out of screen
                 block_pos = 0xC0 + 15;  // new block coming
                 score++;
+                if (score == 25) {
+                    score = LCD_victory();
+                    player_pos = 0xC0 + 1;  // reset character position
+                    block_pos = 0xC0 + 15;  // reset block position
+                }
             }
-            LCD_sendbyte(1,0);  // clear display
-            __delay_ms(2);
             LCD_update_screen(player_pos, block_pos, score);
         } else {  // when waking from comparator interrupt
             player_pos = LCD_jump(player, block, player_pos, block_pos, score);
         }
         if (player_pos == block_pos) {
-            LCD_game_over();
-            score = 0;
+            score = LCD_game_over();
+            player_pos = 0xC0 + 1;  // reset character position
+            block_pos = 0xC0 + 15;  // reset block position
         }
     }
 }
