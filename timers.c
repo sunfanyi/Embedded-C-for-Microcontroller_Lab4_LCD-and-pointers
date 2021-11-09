@@ -23,25 +23,15 @@ void Timer0_init(void)
 
 
 /************************************
- * Function to return the full 16bit timer value
-************************************/
-unsigned char get16bitTMR0val(void)
-{
-	//add your code to get the full 16 bit timer value here
-    TMR0L;
-    return TMR0H;
-}
-
-/************************************
  * Function to restart the timer
 ************************************/
-void Timer0_restart()
+void Timer0_restart(unsigned char score)
 {
     // Restart the timer so T0OUT is always 1 at overflow and 0 during
     // counting, instead of toggling so that the main code knows which 
     // interrupt source wakes up the Sleep mode.
-    T0CON0bits.T0EN=0;
-    TMR0H=6;
-    TMR0L=106;
-    T0CON0bits.T0EN=1;
+    T0CON0bits.T0EN = 0;
+    TMR0H = 6 + score * 1;  // speed going faster
+    TMR0L = 106;
+    T0CON0bits.T0EN = 1;
 }

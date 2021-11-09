@@ -6,7 +6,6 @@
 #define _XTAL_FREQ 64000000
 
 void Timer0_init();
-unsigned char get16bitTMR0val(void);
-void Timer0_restart();
+void Timer0_restart(unsigned char score);
 
 #endif

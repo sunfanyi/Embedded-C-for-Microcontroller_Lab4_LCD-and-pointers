@@ -131,7 +131,8 @@ void LCD_scroll(void)
  * the result is stored in buf as ascii text ready for display on LCD
  * Note result is stored in a buffer using pointers, it is not sent to the LCD
 ************************************/
-void ADC2String(char *buf, unsigned int ADC_val){
+void ADC2String(char *buf, unsigned int ADC_val)
+{
     //code to calculate the integer and fractions part of a ADC value
     unsigned int int_part = ADC_val/77; //255/77=3.3, get integer part of voltage
     unsigned int frac_part = ADC_val*100/77 - int_part*100; //get fractional part of voltage
@@ -147,7 +148,8 @@ void ADC2String(char *buf, unsigned int ADC_val){
 /************************************
  * Function to create customised character
 ************************************/
-void LCD_create_character(unsigned char *character, unsigned char CGRAM_loc) {
+void LCD_create_character(unsigned char *character, unsigned char CGRAM_loc) 
+{
     LCD_sendbyte(0b01000000 + CGRAM_loc * 8,0);  // Set CGRAM address in address counter.
     int i;
     for (i=0;i<8;i++) {  // sending character pattern to CGRAM
@@ -156,11 +158,17 @@ void LCD_create_character(unsigned char *character, unsigned char CGRAM_loc) {
 }
 
 
-void LCD_update_screen(unsigned char player_pos, unsigned char block_pos) {
+void LCD_update_screen(unsigned char player_pos, unsigned char block_pos,
+        unsigned char score)
+{
+    int buf[0];
     LCD_sendbyte(player_pos,0);  // set cursor position
     LCD_sendbyte(0,1);  // display 'person' character data in CGRAM to LCD 
     LCD_sendbyte(block_pos,0);  // set cursor position
     LCD_sendbyte(1,1);  // display 'block' character data in CGRAM to LCD
+    LCD_sendbyte(0x80 + 13,0);  // set cursor position
+    sprintf(buf, "%03d", score);
+    LCD_sendstring(buf);  // display score data in CGRAM to LCD
 }
 
 
@@ -168,17 +176,18 @@ void LCD_update_screen(unsigned char player_pos, unsigned char block_pos) {
  * Function to update the player's position
 ************************************/
 unsigned char LCD_jump(unsigned char *player, unsigned char *block,
-        unsigned char player_pos, unsigned char block_pos) {
+        unsigned char player_pos, unsigned char block_pos, unsigned char score) 
+{
     if (player_pos == 0xC0 + 1) {  // player not jumping
         LCD_sendbyte(1,0);  // clear display
         __delay_ms(2);
         player_pos = 0x80 + 1;
-        LCD_update_screen(player_pos, block_pos);  // back to first row
+        LCD_update_screen(player_pos, block_pos, score);  // back to first row
     } else {  // player jumping
         LCD_sendbyte(1,0);
         __delay_ms(2);
         player_pos = 0xC0 + 1;
-        LCD_update_screen(player_pos, block_pos);  // jump to second row
+        LCD_update_screen(player_pos, block_pos, score);  // jump to second row
     }
     return player_pos;
 }
@@ -187,25 +196,26 @@ unsigned char LCD_jump(unsigned char *player, unsigned char *block,
 /************************************
  * Function to display "game over"
 ************************************/
-void LCD_game_over(void) {
+void LCD_game_over(void) 
+{
     LCD_sendbyte(1,0);  // clear display
     __delay_ms(2);
     LCD_sendstring("Game Over!!!");
     LCD_sendbyte(0xC0,0);
     LCD_sendstring("Restart at: 3");
-    __delay_ms(2000);
+    __delay_ms(1000);
     
     LCD_sendbyte(1,0);  // clear display
     __delay_ms(2);
     LCD_sendstring("Game Over!!!");
     LCD_sendbyte(0xC0,0);
     LCD_sendstring("Restart at: 2");  // count down
-    __delay_ms(2000);
+    __delay_ms(1000);
     
     LCD_sendbyte(1,0);  // clear display
     __delay_ms(2);
     LCD_sendstring("Game Over!!!");
     LCD_sendbyte(0xC0,0);
     LCD_sendstring("Restart at: 1");
-    __delay_ms(2000);
+    __delay_ms(1000);
 }
