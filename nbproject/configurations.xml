@@ -23,6 +23,12 @@
                    projectFiles="false">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>D:/Desktop/ME3/Embedded C for Microcontroller/Tutorials/Lab4_LCD_and_pointers/lab-4-fanyi-ernie.X/comparator.c</itemPath>
+    <itemPath>D:/Desktop/ME3/Embedded C for Microcontroller/Tutorials/Lab4_LCD_and_pointers/lab-4-fanyi-ernie.X/comparator.h</itemPath>
+    <itemPath>D:/Desktop/ME3/Embedded C for Microcontroller/Tutorials/Lab4_LCD_and_pointers/lab-4-fanyi-ernie.X/interrupts.c</itemPath>
+    <itemPath>D:/Desktop/ME3/Embedded C for Microcontroller/Tutorials/Lab4_LCD_and_pointers/lab-4-fanyi-ernie.X/interrupts.h</itemPath>
+    <itemPath>D:/Desktop/ME3/Embedded C for Microcontroller/Tutorials/Lab4_LCD_and_pointers/lab-4-fanyi-ernie.X/timers.c</itemPath>
+    <itemPath>D:/Desktop/ME3/Embedded C for Microcontroller/Tutorials/Lab4_LCD_and_pointers/lab-4-fanyi-ernie.X/timers.h</itemPath>
   </logicalFolder>
   <sourceRootList>
     <Elem>.</Elem>

@@ -147,13 +147,13 @@ void ADC2String(char *buf, unsigned int ADC_val){
 /************************************
  * Function to display customised character
 ************************************/
-void LCD_disp_customised(unsigned char *character, unsigned char CGRAM_pos,
+void LCD_disp_customised(unsigned char *character, unsigned char CGRAM_loc,
         unsigned char line) {
-    LCD_sendbyte(0b01000000 + CGRAM_pos * 8,0);  // Set CGRAM address in address counter.
+    LCD_sendbyte(0b01000000 + CGRAM_loc * 8,0);  // Set CGRAM address in address counter.
     int i;
     for (i=0;i<8;i++) {  // sending character pattern to CGRAM
         LCD_sendbyte(character[i],1);
     }
     LCD_setline(line);
-    LCD_sendbyte(CGRAM_pos,1);  // display data in CGRAM to LCD
+    LCD_sendbyte(CGRAM_loc,1);  // display data in CGRAM to LCD
 }
